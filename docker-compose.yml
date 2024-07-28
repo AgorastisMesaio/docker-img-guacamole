@@ -1,0 +1,25 @@
+### Docker Compose example
+volumes:
+  backend_drive:
+    driver: local
+  backend_record:
+    driver: local
+
+networks:
+  my_network:
+    name: my_network
+    driver: bridge
+
+services:
+  ct_guacd:
+    image: ghcr.io/sw-luis-palacios/base-guacd:main
+    hostname: ct_guacd
+    container_name: guacd
+    restart: always
+    ports:
+      - 4822:4822
+    volumes:
+    - backend_drive:/drive
+    - backend_record:/var/lib/guacamole/recordings
+    networks:
+      - my_network
