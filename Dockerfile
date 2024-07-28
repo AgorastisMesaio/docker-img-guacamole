@@ -1,6 +1,6 @@
-# Dockerfile for Guacd image
+# Dockerfile for Guacamole image
 #
-# This Dockerfile sets up a standard Guacd container that you can use
+# This Dockerfile sets up a standard Guacamole container that you can use
 # inside your docker compose projects or standalone.
 #
-FROM guacamole/guacd:latest
+FROM guacamole/guacamole:latest
