@@ -54,7 +54,7 @@ networks:
 
 services:
   ct_guacd:
-    image: ghcr.io/agorastismesaio/base-guacd:main
+    image: ghcr.io/agorastismesaio/docker-img-guacd:main
     hostname: ct_guacd
     container_name: guacd
     restart: always
@@ -90,7 +90,7 @@ services:
     - ct_postgres
 
   ct_postgres:
-    image: ghcr.io/agorastismesaio/base-postgres:main
+    image: ghcr.io/agorastismesaio/docker-img-postgres:main
     hostname: postgres
     container_name: ct_postgres
     restart: always
