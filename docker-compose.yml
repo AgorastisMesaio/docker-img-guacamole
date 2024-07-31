@@ -12,7 +12,7 @@ networks:
 
 services:
   ct_guacd:
-    image: ghcr.io/sw-luis-palacios/base-guacd:main
+    image: ghcr.io/agorastismesaio/base-guacd:main
     hostname: ct_guacd
     container_name: guacd
     restart: always

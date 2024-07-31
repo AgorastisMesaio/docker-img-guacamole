@@ -1,6 +1,6 @@
 # Adminer docker container
 
-![GitHub action workflow status](https://github.com/SW-Luis-Palacios/base-guacamole/actions/workflows/docker-publish.yml/badge.svg)
+![GitHub action workflow status](https://github.com/AgorastisMesaio/docker-img-guacamole/actions/workflows/docker-publish.yml/badge.svg)
 
 This repository contains a `Dockerfile` aimed to create a *base image* to provide a dockerized Guacamole frontend service. The Guacamole frontend is the web application component of the Apache Guacamole project. It provides a clientless remote desktop gateway, enabling users to access remote desktops through a web browser without needing any plugins or client software. The frontend interacts with the Guacamole server (guacd) to manage remote desktop connections and display them to the user.
 
@@ -54,7 +54,7 @@ networks:
 
 services:
   ct_guacd:
-    image: ghcr.io/sw-luis-palacios/base-guacd:main
+    image: ghcr.io/agorastismesaio/base-guacd:main
     hostname: ct_guacd
     container_name: guacd
     restart: always
@@ -67,7 +67,7 @@ services:
       - my_network
 
   ct_frontend:
-    image: ghcr.io/sw-luis-palacios/base-guacamole:main
+    image: ghcr.io/agorastismesaio/docker-img-guacamole:main
     hostname: guacamole
     container_name: ct_frontend
     restart: always
@@ -90,7 +90,7 @@ services:
     - ct_postgres
 
   ct_postgres:
-    image: ghcr.io/sw-luis-palacios/base-postgres:main
+    image: ghcr.io/agorastismesaio/base-postgres:main
     hostname: postgres
     container_name: ct_postgres
     restart: always
@@ -124,5 +124,5 @@ If you copy or fork this project to create your own base image.
 To build the Docker image, run the following command in the directory containing the Dockerfile:
 
 ```sh
-docker build -t your-image/base-guacamole:main .
+docker build -t your-image/docker-img-guacamole:main .
 ```
