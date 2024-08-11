@@ -13,9 +13,9 @@ USER root
 # Adding HEALTHCHECK support.
 #
 # This image is based on Ubuntu and has curl installed, adding
-# a script under guacamole installation directory.
-ADD healthcheck.sh /opt/guacamole/healthcheck.sh
-RUN chmod +x /opt/guacamole/healthcheck.sh
+# a script under guacamole installation directory
+ADD healthcheck.sh /healthcheck.sh
+RUN chmod +x /healthcheck.sh
 
 # My custom health check
 # I'm calling /healthcheck.sh so my container will report 'healthy' instead of running
@@ -24,7 +24,7 @@ RUN chmod +x /opt/guacamole/healthcheck.sh
 # --start-period=3s: Wait time before first check. Gives the container some time to start up.
 # --retries=3: Retry check 'retries' times before considering the container as unhealthy.
 HEALTHCHECK --interval=30s --timeout=10s --start-period=3s --retries=3 \
-  CMD /opt/guacamole/healthcheck.sh || exit $?
+  CMD /healthcheck.sh || exit $?
 
 # Back to guacamole
 USER guacamole
