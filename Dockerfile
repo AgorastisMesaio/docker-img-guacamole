@@ -3,8 +3,7 @@
 # This Dockerfile sets up a standard Guacamole container that you can use
 # inside your docker compose projects or standalone.
 #
-FROM guacamole/guacamole:latest
-#1.5.5
+FROM guacamole/guacamole:1.5.5
 
 # Prepare for healthcheck
 USER root
