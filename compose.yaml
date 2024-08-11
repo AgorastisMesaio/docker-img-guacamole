@@ -1,0 +1,73 @@
+### Docker Compose example
+volumes:
+  backend_drive:
+    driver: local
+  backend_record:
+    driver: local
+  frontend_drive:
+    driver: local
+  frontend_record:
+    driver: local
+  postgres_data:
+    driver: local
+
+networks:
+  my_network:
+    name: my_network
+    driver: bridge
+
+services:
+  guacd:
+    image: ghcr.io/agorastismesaio/docker-img-guacd:main
+    hostname: guacd
+    container_name: guacd
+    restart: always
+    ports:
+      - 4822:4822
+    volumes:
+    - backend_drive:/drive
+    - backend_record:/var/lib/guacamole/recordings
+    networks:
+      - my_network
+
+  guacamole:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: agorastismesaio/docker-img-guacamole
+    hostname: guacamole
+    container_name: guacamole
+    restart: always
+    environment:
+      - GUACD_HOSTNAME=gc_guacd
+      - POSTGRESQL_DATABASE=guacamole_db
+      - POSTGRESQL_USER=admin
+      - POSTGRESQL_PASSWORD=password
+      - POSTGRESQL_HOSTNAME=postgres
+      - POSTGRESQL_AUTO_CREATE_ACCOUNTS=true
+    volumes:
+    - frontend_drive:/drive
+    - frontend_record:/var/lib/guacamole/recordings
+    ports:
+      - 8080:8080 # Default standard Guacamole frontend port
+    networks:
+      - my_network
+    depends_on:
+    - guacd
+    - postgres
+
+  postgres:
+    image: ghcr.io/agorastismesaio/docker-img-postgres:main
+    hostname: postgres
+    container_name: postgres
+    restart: always
+    environment:
+      - PGDATA=/var/lib/postgresql/data/guacamole
+      - POSTGRES_DB=guacamole_db
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=password
+    networks:
+      - my_network
+    volumes:
+    - ./initdb:/docker-entrypoint-initdb.d:ro
+    - postgres_data:/var/lib/postgresql/data

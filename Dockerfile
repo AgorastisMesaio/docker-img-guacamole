@@ -1,11 +1,19 @@
-# Dockerfile for Guacamole image
+# Dockerfile for Guacamole CLIENT image
 #
 # This Dockerfile sets up a standard Guacamole container that you can use
 # inside your docker compose projects or standalone.
 #
-FROM guacamole/guacamole:1.5.5
+FROM guacamole/guacamole:latest
+#1.5.5
 
-# This image is based on Ubuntu and has curl installed...
+# Prepare for healthcheck
+USER root
+#RUN apt-get update
+
+# Adding HEALTHCHECK support.
+#
+# This image is based on Ubuntu and has curl installed, adding
+# a script under guacamole installation directory.
 ADD healthcheck.sh /opt/guacamole/healthcheck.sh
 RUN chmod +x /opt/guacamole/healthcheck.sh
 
@@ -18,4 +26,15 @@ RUN chmod +x /opt/guacamole/healthcheck.sh
 HEALTHCHECK --interval=30s --timeout=10s --start-period=3s --retries=3 \
   CMD /opt/guacamole/healthcheck.sh || exit $?
 
+# Back to guacamole
+USER guacamole
+
+# # Environment variable defaults
+# ENV BAN_ENABLED=true \
+#     ENABLE_FILE_ENVIRONMENT_PROPERTIES=true \
+#     GUACAMOLE_HOME=/etc/guacamole
+
+# # Start Guacamole under Tomcat, listening on 0.0.0.0:8080
+# EXPOSE 8080
+# CMD ["/opt/guacamole/bin/entrypoint.sh" ]
 

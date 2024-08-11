@@ -22,7 +22,7 @@ curl_test() {
 
 # Test service at HTTP
 PORT=8080
-curl_test "Test http" "Error testing ${HOSTNAME}:${PORT}" "http://${HOSTNAME}:${PORT}" || { ret=${?}; exit ${ret}; }
+curl_test "Test http" "Error testing ${HOSTNAME}:${PORT}" "http://${HOSTNAME}:${PORT}/guacamole/" || { ret=${?}; exit ${ret}; }
 echo " Ok."
 
 # All passed
