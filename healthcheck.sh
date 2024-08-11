@@ -1,4 +1,5 @@
-#!/usr/bin/env bash
+#
+# /usr/bin/env bash
 
 # Test an HTTP site, return any error or http error
 curl_test() {
