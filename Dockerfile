@@ -5,16 +5,9 @@
 #
 FROM guacamole/guacamole:1.5.5
 
-# Run as root
-USER root
-
-# Tools for healthcheck
-# Oly install what I'll need, i.e.: openssl netcat-openbsd curl.
-RUN apt-get update && apt install -y curl
-
-# Copy healthcheck
-ADD healthcheck.sh /healthcheck.sh
-RUN chmod +x /healthcheck.sh
+# This image is based on Ubuntu and has curl installed...
+ADD healthcheck.sh /opt/guacamole/healthcheck.sh
+RUN chmod +x /opt/guacamole/healthcheck.sh
 
 # My custom health check
 # I'm calling /healthcheck.sh so my container will report 'healthy' instead of running
@@ -23,8 +16,6 @@ RUN chmod +x /healthcheck.sh
 # --start-period=3s: Wait time before first check. Gives the container some time to start up.
 # --retries=3: Retry check 'retries' times before considering the container as unhealthy.
 HEALTHCHECK --interval=30s --timeout=10s --start-period=3s --retries=3 \
-  CMD /healthcheck.sh || exit $?
+  CMD /opt/guacamole/healthcheck.sh || exit $?
 
-# Run as guacamole
-USER guacamole
 
